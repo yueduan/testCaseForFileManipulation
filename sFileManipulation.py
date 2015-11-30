@@ -5,10 +5,9 @@ kilobytes = 1024
 megabytes = kilobytes * 1024
 passwd = 'mypassword'
 
-originalFile = 'bigFile.txt'
-txtFileExtension = '.txt'
-zipFileExtension = '.zip'
-#aggregatedFile = 'aggregatedFile.zip'
+originalFile = "bigFile.txt"
+txtFileExtension = ".txt"
+zipFileExtension = ".zip"
 
 # this function encodes/decoes data using XOR
 def xor_crypt_string(inputFile, processedFile, key, encode, decode):
@@ -40,20 +39,13 @@ def split(fromfile, todir, chunksize):
 		for fname in os.listdir(todir):
 			os.remove(os.path.join(todir, fname)) 
 	
-	dotPos = fromfile.find(".")
-	fileBasename = ""
-	if dotPos == -1:
-		fileBasename = fromfile
-	else:
-		fileBasename = fromfile.substring[0:dosPos]
-	
 	partnum = 0
 	input = open(fromfile, 'rb')                   # use binary mode on Windows
 	while 1:                                       # eof=empty string from read
 		chunk = input.read(chunksize)          # get next part <= chunksize
 		if not chunk: break
 		partnum  = partnum+1
-		filename = os.path.join(todir, (fileBasename + 'part%04d' % partnum))
+		filename = os.path.join(todir, (fromfile + "part%04d" % partnum))
 		fileobj  = open(filename, 'wb')
 		fileobj.write(chunk)
 		fileobj.close()              
@@ -83,7 +75,7 @@ def doZip(orig, zipped):
 	import zipfile
 	zf = zipfile.ZipFile(zipped, mode='w')
 	try:
-		print '		adding ', orig, ' into zip'
+		print "		adding ', orig, ' into zip"
 		zf.write(orig)
 	finally:
 		zf.close()
@@ -93,15 +85,10 @@ def doUnzip(zipped):
 	print "		Unzipping..."
 	import zipfile
 	zf = zipfile.ZipFile(zipped)
-	#unzipped = 'unzipped' + orig
-	#target = open(unzipped, 'w')
 	try:
 		zf.extractall()
-		#data = zf.read(orig)
-		#target.write(data)
 	finally:
 		zf.close()
-		#target.close()
 
 # test 1: zip/unzip a big file
 def test1():
@@ -166,8 +153,8 @@ def test3():
  		print '		Merge completed'
 
 	# remove generated file and directory
-	os.remove(test3File)
-	shutil.rmtree(splitFileDir)
+	#os.remove(test3File)
+	#shutil.rmtree(splitFileDir)
 
 # Encrypt the file and zip it. Then unzip and decrpyt it.
 def test4():
@@ -202,8 +189,8 @@ def test5():
 	test5File = "bigFile5"
         # copy orignal file to test5 file for testing
         shutil.copy(originalFile, test5File)
-	encryptedFile = test5File + 'encrypted' + txtFileExtension
-	splitFileDir = 'splitFiles'
+	encryptedFile = test5File + "encrypted" + txtFileExtension
+	splitFileDir = "splitFiles"
 	
 	# encode the file and output the encoded file
 	print "		encoding and encrpyting file..."
@@ -332,8 +319,6 @@ if __name__ == '__main__':
 	print "Test 6 Zip and Split/Merge and Unzip: Combination of test 1 and test 3"
 	print "Test 7 Encrypt, Zip & Split/Merge, Unzip and Decrypt: Combination of test 1, test 2 and test 3"
 	
-	
-
 	print "\nDoing test 1..."
 	test1()		
 
