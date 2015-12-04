@@ -1,6 +1,8 @@
 import zipfile
 import sys, os
 import shutil
+import multiprocessing
+
 kilobytes = 1024
 megabytes = kilobytes * 1024
 passwd = 'mypassword'
@@ -20,7 +22,7 @@ def xor_crypt_string(inputFile, processedFile, key, encode, decode):
 		import base64
 		if decode:
 			data = base64.decodestring(data)
-		xored = ''.join(chr(ord(x) ^ ord(y)) for (x,y) in izip(data, cycle(key)))
+		xored = ''.join(chr(ord(x) ^ ord(y)) for (x,y) in izip(data, cycle(key))) 
 		result = xored
 		if encode:
 			result = base64.encodestring(xored).strip()
@@ -100,8 +102,11 @@ def test1():
 	# zip file
 	doZip(test1File, zippedFile)
 
-	# unzip file
-	doUnzip(zippedFile)
+	# unzip file using a different process and wait until it's done
+	#doUnzip(zippedFile)
+	proc = multiprocessing.Process(target=doUnzip, args=(zippedFile,))
+	proc.start()
+	proc.join()
 
 	# remove generated files
 	os.remove(test1File)
@@ -323,19 +328,19 @@ if __name__ == '__main__':
 	test1()		
 
 	print "\nDoing test 2..."
-	test2()
+	#test2()
 	
 	print "\nDoing test 3..."
-	test3()
+	#test3()
 
 	print "\nDoing test 4..."
-	test4()
+	#test4()
 
 	print "\nDoing test 5..."
-	test5()
+	#test5()
 
 	print "\nDoing test 6..."
-	test6()
+	#test6()
 
 	print "\nDoing test 7..."
-	test7()
+	#test7()
