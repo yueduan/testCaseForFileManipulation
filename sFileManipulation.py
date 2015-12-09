@@ -126,8 +126,11 @@ def test2():
 	
 	# decode the file and output the original test file
 	print "		decrypting and decoding file..."
-	xor_crypt_string(encryptedFile, test2File, passwd, False, True)
-	
+	proc = multiprocessing.Process(target=xor_crypt_string, args=(encryptedFile, test2File, passwd, False, True,))
+	#xor_crypt_string(encryptedFile, test2File, passwd, False, True)
+	proc.start()
+	proc.join()	
+
 	# remove generated files
 	os.remove(test2File)
 	os.remove(encryptedFile)
@@ -150,7 +153,10 @@ def test3():
 
 	# aggregate file
 	try:
-		join(splitFileDir, test3File)
+		proc = multiprocessing.Process(target=join, args=(splitFileDir, test3File,))
+		proc.start()
+		proc.join()
+		#join(splitFileDir, test3File)
         except:
 		print 'Error aggregating files:'
 		print sys.exc_type, sys.exc_value
@@ -158,8 +164,8 @@ def test3():
  		print '		Merge completed'
 
 	# remove generated file and directory
-	#os.remove(test3File)
-	#shutil.rmtree(splitFileDir)
+	os.remove(test3File)
+	shutil.rmtree(splitFileDir)
 
 # Encrypt the file and zip it. Then unzip and decrpyt it.
 def test4():
@@ -176,12 +182,18 @@ def test4():
 	# zip file
 	doZip(encryptedFile, zippedFile)
 
-	# unzip file
-	doUnzip(zippedFile)
+	# unzip file using a different process and wait until it's done
+	#doUnzip(zippedFile)
+	proc = multiprocessing.Process(target=doUnzip, args=(zippedFile,))
+	proc.start()
+	proc.join()
 	
 	# decode the file and output the original test file
 	print "		decrypting and decoding file..."
-	xor_crypt_string(encryptedFile, test4File, passwd, False, True)
+	proc = multiprocessing.Process(target=xor_crypt_string, args=(encryptedFile, test4File, passwd, False, True,))
+	proc.start()
+	proc.join()	
+	#xor_crypt_string(encryptedFile, test4File, passwd, False, True)
 
 	# remove generated files
 	os.remove(test4File)
@@ -212,7 +224,10 @@ def test5():
 
 	# aggregate file
 	try:
-		join(splitFileDir, encryptedFile)
+		proc = multiprocessing.Process(target=join, args=(splitFileDir, encryptedFile,))
+		proc.start()
+		proc.join()
+		#join(splitFileDir, encryptedFile)
         except:
 		print 'Error aggregating files:'
 		print sys.exc_type, sys.exc_value
@@ -221,7 +236,10 @@ def test5():
 
 	# # decode the file and output the original test file
 	print "		decrypting and decoding file..."
-	xor_crypt_string(encryptedFile, test5File, passwd, False, True)
+	proc = multiprocessing.Process(target=xor_crypt_string, args=(encryptedFile, test5File, passwd, False, True,))
+	proc.start()
+	proc.join()	
+	#xor_crypt_string(encryptedFile, test5File, passwd, False, True)
 
 	# remove generated files
 	os.remove(test5File)
@@ -251,15 +269,21 @@ def test6():
 
 	# aggregate file
 	try:
-		join(splitFileDir, zippedFile)
+		proc = multiprocessing.Process(target=join, args=(splitFileDir, zippedFile,))
+		proc.start()
+		proc.join()
+		#join(splitFileDir, zippedFile)
         except:
 		print 'Error aggregating files:'
 		print sys.exc_type, sys.exc_value
         else:
  		print '		Merge completed'
 
-	# unzip file
-	doUnzip(zippedFile)
+	# unzip file using a different process and wait until it's done
+	proc = multiprocessing.Process(target=doUnzip, args=(zippedFile,))
+	proc.start()
+	proc.join()
+	#doUnzip(zippedFile)
 
 	# remove generated files
 	os.remove(test6File)
@@ -293,19 +317,28 @@ def test7():
 
 	# aggregate file
 	try:
-		join(splitFileDir, zippedFile)
+		proc = multiprocessing.Process(target=join, args=(splitFileDir, zippedFile,))
+		proc.start()
+		proc.join()
+		#join(splitFileDir, zippedFile)
         except:
 		print 'Error aggregating files:'
 		print sys.exc_type, sys.exc_value
         else:
  		print '		Merge completed'
 
-	# unzip file
+	# unzip file using a different process and wait until it's done
+	proc = multiprocessing.Process(target=doUnzip, args=(zippedFile,))
+	proc.start()
+	proc.join()
 	doUnzip(zippedFile)
 	
 	# decode the file and output the original test file
 	print "		decrypting and decoding file..."
-	xor_crypt_string(encryptedFile, test7File, passwd, False, True)
+	proc = multiprocessing.Process(target=xor_crypt_string, args=(encryptedFile, test7File, passwd, False, True,))
+	proc.start()
+	proc.join()	
+	#xor_crypt_string(encryptedFile, test7File, passwd, False, True)
 	
 	# remove generated files
 	os.remove(test7File)
@@ -328,19 +361,19 @@ if __name__ == '__main__':
 	test1()		
 
 	print "\nDoing test 2..."
-	#test2()
+	test2()
 	
 	print "\nDoing test 3..."
-	#test3()
+	test3()
 
 	print "\nDoing test 4..."
-	#test4()
+	test4()
 
 	print "\nDoing test 5..."
-	#test5()
+	test5()
 
 	print "\nDoing test 6..."
-	#test6()
+	test6()
 
 	print "\nDoing test 7..."
-	#test7()
+	test7()
